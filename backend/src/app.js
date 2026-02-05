@@ -41,6 +41,14 @@ client.once("ready", () => {
   initTracker(client);
 });
 
+client.on("error", (error) => {
+  console.error("❌ Discord Client Error:", error);
+});
+
+client.on("warn", (warning) => {
+  console.warn("⚠️ Discord Client Warning:", warning);
+});
+
 // Routes
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to Profile-7Flat Backend" });
