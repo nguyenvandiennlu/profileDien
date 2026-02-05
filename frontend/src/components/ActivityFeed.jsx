@@ -3,12 +3,14 @@ import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
 import { MessageSquare, Mic, Activity, Clock, Radio, Moon } from "lucide-react";
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+
 const ActivityFeed = () => {
   const [activities, setActivities] = useState([]);
 
   const fetchActivities = async () => {
     try {
-      const res = await axios.get("http://localhost:80/api/activities");
+      const res = await axios.get(`${API_URL}/api/activities`);
       setActivities(res.data);
     } catch (error) {
       console.error("Error fetching activities:", error);

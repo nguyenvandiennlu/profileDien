@@ -2,6 +2,8 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+
 const ProfileCard = () => {
   const [userInfo, setUserInfo] = useState(null);
   const [avatarError, setAvatarError] = useState(false);
@@ -10,7 +12,7 @@ const ProfileCard = () => {
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
-        const response = await axios.get("http://localhost:80/api/user-info");
+        const response = await axios.get(`${API_URL}/api/user-info`);
         setUserInfo(response.data);
         setIsLoading(false);
       } catch (error) {
