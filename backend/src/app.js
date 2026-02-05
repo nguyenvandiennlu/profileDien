@@ -210,15 +210,27 @@ app.get("/api/user-info", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 
-  // Login Bot if token is present
+  // Login Bot if token is present with timeout
   if (process.env.DISCORD_TOKEN) {
     console.log("🔄 Attempting to login Discord bot...");
+
+    const loginTimeout = setTimeout(() => {
+      console.warn(
+        "⚠️ Discord login taking too long (30s timeout). Bot may not be available.",
+      );
+    }, 30000);
+
     client
       .login(process.env.DISCORD_TOKEN)
-      .then(() => console.log("✅ Discord login successful!"))
+      .then(() => {
+        clearTimeout(loginTimeout);
+        console.log("✅ Discord login successful!");
+      })
       .catch((err) => {
+        clearTimeout(loginTimeout);
         console.error("❌ Discord Login Failed:", err);
         console.error("Error details:", err.message);
+        console.error("Stack:", err.stack);
       });
   } else {
     console.warn("⚠️ No DISCORD_TOKEN found in .env");
