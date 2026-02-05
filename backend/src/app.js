@@ -204,9 +204,14 @@ app.listen(PORT, () => {
 
   // Login Bot if token is present
   if (process.env.DISCORD_TOKEN) {
+    console.log("🔄 Attempting to login Discord bot...");
     client
       .login(process.env.DISCORD_TOKEN)
-      .catch((err) => console.error("Discord Login Failed:", err));
+      .then(() => console.log("✅ Discord login successful!"))
+      .catch((err) => {
+        console.error("❌ Discord Login Failed:", err);
+        console.error("Error details:", err.message);
+      });
   } else {
     console.warn("⚠️ No DISCORD_TOKEN found in .env");
   }
